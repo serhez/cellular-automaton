@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 13-06-2021 04:24
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 16:41
+ * @Last Modified time: 18-06-2021 19:27
  */
 
 #ifndef GRID_HPP
@@ -10,13 +10,18 @@
 
 #include <vector>
 #include <xtensor/xarray.hpp>
-#include "../rules/rules.hpp"
+
+// Forward declaration
+namespace rules
+{
+    class Rules;
+}
 
 namespace core
 {
 
 /**
- * @brief A dynamically shaped square tensor holding each cell's state (0=inactive, 1=active)
+ * @brief A dynamically shaped square tensor holding each cell's state
  */
 typedef xt::xarray<uint_fast8_t> GridState;
 
@@ -53,7 +58,7 @@ class Grid
          *
          * @return The current state
          */
-        GridState state() const { return m_state; }
+        GridState getState() const { return m_state; }
 
     private:
         /**

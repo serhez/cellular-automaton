@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 13-06-2021 04:24
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 16:52
+ * @Last Modified time: 18-06-2021 19:26
  */
 
 #include "grid.hpp"
@@ -10,20 +10,20 @@
 
 using namespace core;
 
-Grid::Grid(const uint_fast8_t dimensions, const std::vector<std::vector<uint_fast64_t>> initial_active_cells, const rules::Rules rules)
+Grid::Grid(const uint_fast8_t dimensions, const std::vector<std::vector<uint_fast64_t>> initial_active_cells, const rules::Rules& rules)
     : m_d{dimensions}, m_rules{rules}
 {
     // Find max dimension size
     m_size = 0;
     for (uint_fast64_t i = 0; i < initial_active_cells.size(); ++i)
     {
-        uint_fast64_t max_coord = *std::min_element(initial_active_cells[i].begin(), initial_active_cells[i].end())
+        uint_fast64_t max_coord = *std::min_element(initial_active_cells[i].begin(), initial_active_cells[i].end());
         if (m_size < max_coord)
         {
             m_size = max_coord;
         }
     }
-    m_size += 2 * (m_rules.inactive_radius + RESIZE_PADDING);
+    m_size += 2 * (m_rules.getInactiveRadius() + RESIZE_PADDING);
 
     // Create seed state from active cells
     m_state = xt::xarray<uint_fast8_t>::from_shape({m_d, m_size});
@@ -63,7 +63,7 @@ bool Grid::update()
 
     // Check if there are enough inactive cells in the grid at the ends of each dimension
     bool must_resize = false;
-    uint_fast64_t resize = m_rules.inactive_radius + RESIZE_PADDING; 
+    uint_fast64_t resize = m_rules.getInactiveRadius() + RESIZE_PADDING; 
 
     if (resize > 0)
     {

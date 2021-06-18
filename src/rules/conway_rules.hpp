@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 18-06-2021 14:55
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 16:56
+ * @Last Modified time: 18-06-2021 19:18
  */
 
 #ifndef CONWAY_RULES_HPP
@@ -26,9 +26,9 @@ class ConwayRules : public Rules
          *
          * @param dimensions The number of dimensions of the grid the rules will be applied to
          */
-        ConwayRules(const uint_fast8_t dimensions)
+        ConwayRules(const uint_fast8_t dimensions);
 
-        bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const std::vector<uint_fast64_t> cell) override;
+        bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const std::vector<uint_fast64_t> cell) const override;
 
     private:
         /**
@@ -39,13 +39,13 @@ class ConwayRules : public Rules
         /**
          * @m_min_neighbours The minimum number of neighbours for a cell to survive
          */
-        const uint_fast64_t m_min_neighbours;
+        uint_fast64_t m_min_neighbours;
 
         /**
          * @m_max_neighbours The maximum number of neighbours for a cell to survive or to be revived
          */
-        const uint_fast64_t m_max_neighbours;
-}
+        uint_fast64_t m_max_neighbours;
+};
 
 }  // namespace rules
 
