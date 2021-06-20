@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 18-06-2021 16:05
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 19:36
+ * @Last Modified time: 20-06-2021 16:06
  */
 
 #ifndef RULES_HPP
@@ -27,7 +27,7 @@ class Rules {
          * @param cell The coordinates of the cell to update in the grid
          * @return True on success, false otherwise
          */
-        virtual bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const std::vector<uint_fast64_t> cell) const = 0;
+        virtual bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const core::GridCell& cell) const = 0;
 
         /**
          * @brief Inactive radius getter

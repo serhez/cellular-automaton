@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 13-06-2021 04:24
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 19:27
+ * @Last Modified time: 20-06-2021 16:16
  */
 
 #ifndef GRID_HPP
@@ -26,11 +26,26 @@ namespace core
 typedef xt::xarray<uint_fast8_t> GridState;
 
 /**
+ * @brief The coordinates of a cell in the grid, with as many elements as dimensions the grid has
+ */
+typedef std::vector<uint_fast64_t> GridCell;
+
+/**
  * @brief A square grid which on every update enforces the rules of the automata on its states
  */
 class Grid
 {
     public:
+        /**
+         * @ACTIVE_CELL_STATE The active cell state
+         */
+        static constexpr uint_fast8_t ACTIVE_CELL_STATE = 1;
+
+        /**
+         * @INACTIVE_CELL_STATE The inactive cell state
+         */
+        static constexpr uint_fast8_t INACTIVE_CELL_STATE = 0;
+
         /**
          * @brief Instantiates a grid
          *
@@ -38,7 +53,7 @@ class Grid
          * @param initial_state A list of grid coordinates pointing to the initial active cells
          * @param rules The evolutionary rules of the grid
          */
-        Grid(const uint_fast8_t dimensions, const std::vector<std::vector<uint_fast64_t>> initial_active_cells, const rules::Rules& rules);
+        Grid(const uint_fast8_t dimensions, const std::vector<GridCell>& initial_active_cells, const rules::Rules& rules);
 
         /**
          * @brief Destructs the grid
@@ -61,16 +76,6 @@ class Grid
         GridState getState() const { return m_state; }
 
     private:
-        /**
-         * @ACTIVE_CELL_STATE The active cell state
-         */
-        static constexpr uint_fast8_t ACTIVE_CELL_STATE = 1;
-
-        /**
-         * @INACTIVE_CELL_STATE The inactive cell state
-         */
-        static constexpr uint_fast8_t INACTIVE_CELL_STATE = 0;
-
         /**
          * @RESIZE The number of cells to add as padding to both ends of each dimension of the grid when resizing
          */

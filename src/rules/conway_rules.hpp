@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 18-06-2021 14:55
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 19:18
+ * @Last Modified time: 20-06-2021 16:05
  */
 
 #ifndef CONWAY_RULES_HPP
@@ -28,9 +28,19 @@ class ConwayRules : public Rules
          */
         ConwayRules(const uint_fast8_t dimensions);
 
-        bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const std::vector<uint_fast64_t> cell) const override;
+        bool applyToCell(const core::GridState& current_state, core::GridState& new_state, const core::GridCell& cell) const override;
 
     private:
+        /**
+         * @MIN_NEIGHBOURS_RATIO The dimension-agnostic minimum ratio of neighbours a cell needs to survive
+         */
+        static constexpr float MIN_NEIGHBOURS_RATIO = 1./4.;
+
+        /**
+         * @MAX_NEIGHBOURS_RATIO The dimension-agnostic maximum ratio of neighbours a cell needs to survive or to be revived
+         */
+        static constexpr float MAX_NEIGHBOURS_RATIO = 3./8.;
+
         /**
          * @m_d The number of dimensions of the grid the rules will be applied to
          */
@@ -39,12 +49,12 @@ class ConwayRules : public Rules
         /**
          * @m_min_neighbours The minimum number of neighbours for a cell to survive
          */
-        uint_fast64_t m_min_neighbours;
+        const uint_fast64_t m_min_neighbours;
 
         /**
          * @m_max_neighbours The maximum number of neighbours for a cell to survive or to be revived
          */
-        uint_fast64_t m_max_neighbours;
+        const uint_fast64_t m_max_neighbours;
 };
 
 }  // namespace rules

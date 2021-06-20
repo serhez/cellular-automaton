@@ -2,7 +2,7 @@
  * @Author: Hezser <contact.sergiohernandez@gmail.com>
  * @Date: 13-06-2021 04:24
  * @Last Modified by: Hezser <contact.sergiohernandez@gmail.com>
- * @Last Modified time: 18-06-2021 19:26
+ * @Last Modified time: 20-06-2021 16:10
  */
 
 #include "grid.hpp"
@@ -10,7 +10,7 @@
 
 using namespace core;
 
-Grid::Grid(const uint_fast8_t dimensions, const std::vector<std::vector<uint_fast64_t>> initial_active_cells, const rules::Rules& rules)
+Grid::Grid(const uint_fast8_t dimensions, const std::vector<GridCell>& initial_active_cells, const rules::Rules& rules)
     : m_d{dimensions}, m_rules{rules}
 {
     // Find max dimension size
@@ -41,21 +41,21 @@ bool Grid::update()
     std::copy(m_state.crbegin(), m_state.crend(), new_state.begin());
 
     // Enforce the rules in each cell of the grid
-    std::vector<uint_fast64_t> coord(m_d, 0);
+    GridCell cell(m_d, 0);
     while(true)
     {
-        if (!m_rules.applyToCell(m_state, new_state, coord)) return false;
+        if (!m_rules.applyToCell(m_state, new_state, cell)) return false;
 
         // Go to next coord or break if we have traversed all coords
         uint_fast8_t i = 0;
-        while (i < m_d && coord[i] == m_size - 1) ++i;
+        while (i < m_d && cell[i] == m_size - 1) ++i;
         if (i == m_d) 
         {
-            if (!m_rules.applyToCell(m_state, new_state, coord)) return false;
+            if (!m_rules.applyToCell(m_state, new_state, cell)) return false;
             break;
         }
-        for (uint_fast8_t j = 0; j < i; ++j) coord[j] = 0;
-        coord[i] += 1;
+        for (uint_fast8_t j = 0; j < i; ++j) cell[j] = 0;
+        cell[i] += 1;
     }
 
     // Make the copy the current state
@@ -67,10 +67,10 @@ bool Grid::update()
 
     if (resize > 0)
     {
-        std::vector<uint_fast64_t> coord(m_d, 0);
+        GridCell cell(m_d, 0);
         while(true)
         {
-            if (m_state[coord] == ACTIVE_CELL_STATE)
+            if (m_state[cell] == ACTIVE_CELL_STATE)
             {
                 must_resize = true;
                 break;
@@ -78,17 +78,17 @@ bool Grid::update()
 
             // Go to next coord or break if we have traversed all coords
             uint_fast8_t i = 0;
-            while (i < m_d && coord[i] == m_size - 1) ++i;
+            while (i < m_d && cell[i] == m_size - 1) ++i;
             if (i == m_d) 
             {
-                if (m_state[coord] == ACTIVE_CELL_STATE)
+                if (m_state[cell] == ACTIVE_CELL_STATE)
                 {
                     must_resize = true;
                 }
                 break;
             }
-            for (uint_fast8_t j = 0; j < i; ++j) coord[j] = 0;
-            coord[i] = coord[i] == resize - 1 ? m_size - resize : coord[i] + 1;
+            for (uint_fast8_t j = 0; j < i; ++j) cell[j] = 0;
+            cell[i] = cell[i] == resize - 1 ? m_size - resize : cell[i] + 1;
         }
     }
 
@@ -101,21 +101,21 @@ bool Grid::update()
         GridState resized_state = xt::xarray<uint_fast8_t>::from_shape({m_d, m_size});
         resized_state.fill(INACTIVE_CELL_STATE);
 
-        std::vector<uint_fast64_t> coord(m_d, resize);
+        GridCell cell(m_d, resize);
         while(true)
         {
-            resized_state[coord] = m_state[coord];
+            resized_state[cell] = m_state[cell];
 
             // Go to next coord or break if we have traversed all coords
             uint_fast8_t i = 0;
-            while (i < m_d && coord[i] == resize_end - 1) ++i;
+            while (i < m_d && cell[i] == resize_end - 1) ++i;
             if (i == m_d) 
             {
-                resized_state[coord] = m_state[coord];
+                resized_state[cell] = m_state[cell];
                 break;
             }
-            for (uint_fast8_t j = 0; j < i; ++j) coord[j] = resize;
-            coord[i] += 1;
+            for (uint_fast8_t j = 0; j < i; ++j) cell[j] = resize;
+            cell[i] += 1;
         }
 
         m_state = resized_state;
