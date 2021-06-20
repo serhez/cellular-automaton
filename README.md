@@ -1,5 +1,5 @@
 # cellular-automaton
-A 3D cellular automaton, featuring auto-resized dimension-agnostic square grids.
+A cellular automaton implementation, featuring auto-resized dimension-agnostic grids.
 
 ## Dependencies
 * xtensor C++ library (https://xtensor.readthedocs.io/en/latest/)
