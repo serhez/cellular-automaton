@@ -9,15 +9,14 @@
 #include "../core/grid.hpp"
 #include "../utils/neighbours.hpp"
 
-using namespace rules;
-
 // NOTE: The number of neighbours of any cell in an infinite grid in d dimensions is just 2d
-ConwayRules::ConwayRules(const uint_fast8_t dimensions)
+rules::ConwayRules::ConwayRules(const uint_fast8_t dimensions)
     : Rules{1}, m_d{dimensions},
     m_min_neighbours{static_cast<uint_fast64_t>(MIN_NEIGHBOURS_RATIO * (2 * m_d))},
-    m_max_neighbours{static_cast<uint_fast64_t>(MAX_NEIGHBOURS_RATIO * (2 * m_d))} {}
+    m_max_neighbours{static_cast<uint_fast64_t>(MAX_NEIGHBOURS_RATIO * (2 * m_d))}
+    {}
 
-bool ConwayRules::applyToCell(const core::GridState& current_state,
+bool rules::ConwayRules::applyToCell(const core::GridState& current_state,
     core::GridState& new_state, const core::GridCell& cell) const
 {
     std::vector<core::GridCell> neighbours = utils::getNeighbours(m_d, cell);

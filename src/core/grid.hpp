@@ -56,12 +56,6 @@ class Grid
         Grid(const uint_fast8_t dimensions, const std::vector<GridCell>& initial_active_cells, const rules::Rules& rules);
 
         /**
-         * @brief Destructs the grid
-         *
-         */
-        ~Grid() noexcept;
-
-        /**
          * @brief Updates the grid one time step
          *
          * @return True on sucess, false otherwise

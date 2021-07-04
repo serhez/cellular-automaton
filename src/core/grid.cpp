@@ -49,7 +49,6 @@ bool Grid::update()
         // Go to next coord or break if we have traversed all coords
         uint_fast8_t i = 0;
         while (i < m_d && cell[i] == m_size - 1) ++i;
-        if (i == m_d) 
         {
             if (!m_rules.applyToCell(m_state, new_state, cell)) return false;
             break;
