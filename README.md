@@ -6,7 +6,7 @@ A cellular automaton implementation, featuring auto-resized dimension-agnostic g
 
 * When more cells may be needed for subsequent steps, the **grid auto-resizes** itself to accomodate for future active cells.
 * The core implementation of the algorithms is **dimension-agnostic**, which means that the same classes and algorithms can be used regardless of the number of spacial dimensions being used. 
-* The structure of the project is better understood as a **library** upon you can build visualization scripts or other software; evolutionary rules, auto-resizing constraints and the number of dimensions are some examples of parameters which can be manipulated.
+* The structure of the project is better understood as a **library** upon which you can build visualization scripts or other software; evolutionary rules, auto-resizing constraints and the number of dimensions are some examples of parameters which can be manipulated.
 
 ## Visualization
 
