@@ -18,7 +18,7 @@ The following visualization options are planned to be available as part of the p
 
 You may implement yourself a visualization script for your preferred number of dimensions, using this software as an API/library to serve the core logic.
 
-Furthermore, I would also like to add a GUI which can run any visualization program, with features such as evolutionary speed factor, forward/backwards, play/pause, etc.
+Furthermore, I would also like to add a GUI in the future which can run any visualization program, with features such as evolutionary speed factor, forwards/backwards, play/pause, etc.
 
 ## Dependencies
 
